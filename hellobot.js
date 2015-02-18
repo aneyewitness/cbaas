@@ -11,16 +11,19 @@ trigger_word=googlebot:
 */
 
 module.exports = function (req, res, next) {
-	var channel 	= req.body.channel_name;
-	var timestamp 	= req.body.timestamp;
+	var thisbody 	= req.body || "text body";
+	var channel 	= req.body.channel_name || "test channel";
+	var timestamp 	= req.body.timestamp || 1355517523;
 	timestamp 	= new Date(timestamp);
-	var userName 	= req.body.user_name;
-	var question 	= req.body.text;
-	var botPayload	= {text : 
-				'{You said:\"'+ question +'\" in channel '+channel+' at '+timestamp+'} \n' +
-				'[OBJECT:'+JSON.stringify(req.body)+'] \N'+
-				'Hello, ' + userName + '!'
-			};
+	var userName 	= req.body.user_name || "test name";
+	var question 	= req.body.text || "test body";
+	var answer 	= 	'{QUESTION: \"'+ question +'\" in channel '+channel+' at '+timestamp+'} \n' +
+				'{ANSWER: Hello, ' + userName + '!}';
+	
+	if(question.toLowerCase().indexOf("object") > -1){
+		answer = answer + '\n {OBJECT:'+JSON.stringify(thisbody)+'} \n';
+	}
+	var botPayload	= {text : answer};
  
   // avoid infinite loop
 	if (userName !== 'slackbot') {
