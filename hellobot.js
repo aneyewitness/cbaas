@@ -1,6 +1,25 @@
+/*
+token=oLSiGCKHPO2rewoB6xVoCn3U
+team_id=T0001
+channel_id=C2147483705
+channel_name=test
+timestamp=1355517523.000005
+user_id=U2147483697
+user_name=Steve
+text=googlebot: What is the air-speed velocity of an unladen swallow?
+trigger_word=googlebot:
+*/
+
 module.exports = function (req, res, next) {
+	var channel 	= req.body.channel_name;
+	var time 	= req.body.timestamp;
+	time 		= new Date(time);
 	var userName 	= req.body.user_name;
-	var botPayload	= {text : 'Hello, ' + userName + '!'};
+	var question 	= req.body.text;
+	var botPayload	= {text : 
+				'{You said:\"'+ question +'\" in channel '+channel+' at '+time+'} \n' +
+				'Hello, ' + userName + '!'
+			};
  
   // avoid infinite loop
 	if (userName !== 'slackbot') {
