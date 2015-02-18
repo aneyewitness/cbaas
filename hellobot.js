@@ -12,12 +12,13 @@ trigger_word=googlebot:
 
 module.exports = function (req, res, next) {
 	var channel 	= req.body.channel_name;
-	var time 	= req.body.timestamp;
-	time 		= new Date(time);
+	var timestamp 	= req.body.timestamp;
+	timestamp 	= new Date(timestamp);
 	var userName 	= req.body.user_name;
 	var question 	= req.body.text;
 	var botPayload	= {text : 
-				'{You said:\"'+ question +'\" in channel '+channel+' at '+time+'} \n' +
+				'{You said:\"'+ question +'\" in channel '+channel+' at '+timestamp+'} \n' +
+				'[OBJECT:'+JSON.stringify(req.body)+'] \N'+
 				'Hello, ' + userName + '!'
 			};
  
